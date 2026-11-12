@@ -184,17 +184,21 @@
             <ol>
               ${dia.ejercicios.map((b) => {
                 const e = U.ejercicio(b.id, b.nombre);
+                const f = U.fotos(b.id);
+                const datos = `data-id="${esc(b.id)}" data-nombre="${esc(b.nombre)}"`;
                 return `
                 <li class="bloque">
                   <div class="bloque__info">
-                    ${e.propio
+                    ${e.propio && !f
                       ? `<p class="bloque__nombre">${esc(b.nombre)}</p>`
-                      : `<button type="button" class="bloque__nombre" data-id="${e.id}">${esc(b.nombre || e.nombre)}</button>`}
+                      : `<button type="button" class="bloque__nombre" ${datos}>${esc(b.nombre || e.nombre)}</button>`}
                     ${e.equipo ? `<p class="bloque__meta">${esc(e.musculo)} · ${esc(e.equipo)}</p>` : ""}
                     <p class="bloque__dosis"><strong>${b.series} × ${esc(b.reps)}</strong>${b.descanso ? ` · descanso ${esc(b.descanso)}` : ""}</p>
                     ${b.notas ? `<p class="bloque__nota">${esc(b.notas)}</p>` : ""}
                     ${ultimaHTML(b)}
                   </div>
+                  ${f ? `<button type="button" class="bloque__foto" ${datos} aria-label="Ver ejemplo de ${esc(b.nombre)}">
+                    <img src="${esc(f.inicio)}" alt="" loading="lazy" onerror="this.parentElement.remove()"></button>` : ""}
                 </li>`;
               }).join("")}
             </ol>
@@ -305,8 +309,8 @@
     });
 
     cont.addEventListener("click", (ev) => {
-      const btnDetalle = ev.target.closest(".bloque__nombre[data-id]");
-      if (btnDetalle && !editandoRutina) { window.NM.app.abrirDetalle(btnDetalle.dataset.id); return; }
+      const btnDetalle = ev.target.closest(".bloque [data-id]");
+      if (btnDetalle && !editandoRutina) { window.NM.app.abrirDetalle(btnDetalle.dataset.id, btnDetalle.dataset.nombre); return; }
       const registrar = ev.target.closest("[data-registrar]");
       if (registrar) { abrirSesion(Number(registrar.dataset.registrar)); return; }
 
@@ -418,7 +422,9 @@
           return `
           <section class="ej-sesion">
             <div class="ej-sesion__cabecera">
-              <h3>${esc(b.nombre)}</h3>
+              <h3>${!U.ejercicio(ej.id).propio || U.fotos(ej.id)
+                ? `<button type="button" class="ej-sesion__ver" data-id="${esc(ej.id)}" data-nombre="${esc(b.nombre)}" title="Ver ejemplo">${esc(b.nombre)}</button>`
+                : esc(b.nombre)}</h3>
               <span class="etiqueta">${b.series} × ${esc(b.reps)}</span>
             </div>
             ${b.notas ? `<p class="bloque__nota">${esc(b.notas)}</p>` : ""}
@@ -499,6 +505,8 @@
     });
     dialogoSesion.addEventListener("click", (ev) => {
       if (ev.target === dialogoSesion || ev.target.closest("[data-cerrar-sesion]")) { dialogoSesion.close(); return; }
+      const ver = ev.target.closest(".ej-sesion__ver");
+      if (ver) { window.NM.app.abrirDetalle(ver.dataset.id, ver.dataset.nombre); return; }
       const agregar = ev.target.closest("[data-agregar-serie]");
       if (agregar) {
         const e = Number(agregar.dataset.agregarSerie);

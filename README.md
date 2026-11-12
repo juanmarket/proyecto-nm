@@ -27,6 +27,7 @@ Todo se guarda solo en el navegador donde la uses. Cada dispositivo tiene sus pr
   - Estadísticas: sesiones de la semana frente a los días de la rutina, promedio de sesiones, racha de semanas entrenando y tabla semana a semana.
   - Cargas por ejercicio, sesiones y copia de seguridad (incluye plan, sesiones y fotos).
 - **Ejercicios:** 1.324 ejercicios en español con mapa muscular.
+- **Fotos de ejemplo:** 275 ejercicios muestran dos fotos (inicio y fin) que se alternan en la ficha. Los de la rutina tienen además miniatura y sus fotos están copiadas en `img/ejercicios/`; el resto se carga desde GitHub.
 
 ## El plan (rutina + dieta)
 
@@ -47,6 +48,10 @@ El plan se arma en el chat con Claude y se entrega como un archivo `.json` que s
 | `data/ejercicios.js` | Datos generados; no editar a mano |
 | `scripts/construir_datos.py` | Regenera `data/ejercicios.js` |
 | `scripts/nombres_es.json` | Nombres de ejercicios en español (editable) |
+| `data/fotos.js` | Qué fotos corresponden a cada ejercicio; generado, no editar a mano |
+| `scripts/construir_fotos.py` | Regenera `data/fotos.js` y descarga las fotos de la rutina |
+| `scripts/fotos_manual.json` | Emparejamiento a mano de ejercicios con fotos (editable) |
+| `img/ejercicios/` | Fotos de ejemplo de los ejercicios de la rutina |
 | `planes/` | Archivos de rutina y dieta para importar (pueden traer solo una de las dos partes) |
 | `fuentes/` | Dataset original y su licencia |
 
@@ -59,4 +64,5 @@ python scripts/construir_datos.py
 ## Licencias
 
 - Datos e instrucciones: [exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset), MIT, © 2026 Hasan Emir Yıldırım.
-- **No** se incluyen las imágenes ni los GIFs del dataset: son © Gym visual y requieren licencia propia.
+- **No** se incluyen las imágenes ni los GIFs de ese dataset: son © Gym visual y requieren licencia propia.
+- Fotos de ejemplo: [free-exercise-db](https://github.com/yuhonas/free-exercise-db), publicado bajo Unlicense (dominio público). Ver `fuentes/LICENSE-free-exercise-db.txt`.

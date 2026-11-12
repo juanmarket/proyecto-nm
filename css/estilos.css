@@ -136,7 +136,7 @@ main { max-width: 1120px; margin: 0 auto; padding: clamp(20px, 4vw, 40px) clamp(
 .dia ol { list-style: none; margin: 0; padding: 0; counter-reset: ej; }
 .bloque {
   counter-increment: ej;
-  display: grid; grid-template-columns: 28px 1fr; gap: 4px 10px; align-items: start;
+  display: grid; grid-template-columns: 28px 1fr auto; gap: 4px 10px; align-items: start;
   padding: 12px 18px; border-top: 1px solid var(--borde);
 }
 .bloque::before {
@@ -711,3 +711,31 @@ textarea:focus { outline: none; border-color: var(--tinta); background: var(--su
   .barra--carbohidratos .barra__texto, .barra--grasas .barra__texto { font-size: 0.74rem; white-space: nowrap; }
   .barra--carbohidratos .barra__texto strong, .barra--grasas .barra__texto strong { font-size: 0.92rem; }
 }
+
+/* ---------- Fotos de ejemplo de los ejercicios ---------- */
+.demo { margin: 16px 0 0; }
+.demo__marco { position: relative; aspect-ratio: 3 / 2; border-radius: var(--radio-sm); overflow: hidden; background: #1b1d22; }
+.demo__marco img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.demo__fin { animation: demo-fin 2.6s infinite; }
+@keyframes demo-fin { 0%, 42% { opacity: 0; } 50%, 92% { opacity: 1; } 100% { opacity: 0; } }
+.demo__fase { position: absolute; left: 10px; top: 10px; display: grid; }
+.demo__fase b { grid-area: 1 / 1; padding: 3px 9px; border-radius: 999px; background: rgba(0, 0, 0, 0.6); color: #fff; font-size: 0.72rem; font-weight: 700; }
+.demo__fase b:first-child { animation: demo-inicio 2.6s infinite; }
+.demo__fase b:last-child { animation: demo-fin 2.6s infinite; }
+@keyframes demo-inicio { 0%, 42% { opacity: 1; } 50%, 92% { opacity: 0; } 100% { opacity: 1; } }
+.demo figcaption { margin-top: 6px; font-size: 0.78rem; color: var(--tenue); }
+@media (prefers-reduced-motion: reduce) {
+  .demo__marco { aspect-ratio: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: none; }
+  .demo__marco img { position: static; aspect-ratio: 3 / 2; opacity: 1 !important; border-radius: var(--radio-sm); }
+  .demo__fase { display: none; }
+}
+.bloque__foto {
+  grid-column: 3; grid-row: 1; align-self: start; width: 84px; padding: 0; border: 1px solid var(--borde);
+  border-radius: 10px; overflow: hidden; background: var(--superficie-2); cursor: pointer; transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.bloque__foto:hover { transform: scale(1.03); border-color: var(--tinta); }
+.bloque__foto img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.ej-sesion__ver { padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; text-decoration: underline; text-decoration-color: var(--borde); text-underline-offset: 3px; }
+.ej-sesion__ver:hover { color: var(--acento); }
+@media (max-width: 520px) { .bloque__foto { width: 68px; } }
+@media print { .bloque__foto { display: none !important; } }

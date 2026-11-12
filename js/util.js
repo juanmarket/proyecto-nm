@@ -84,6 +84,32 @@
     return POR_ID.get(id) || { id, nombre: nombre || id, propio: true, equipo: "", equipoEn: "", musculo: "", secundarios: [], pasos: [] };
   }
 
+  // Fotos de ejemplo (inicio y fin del movimiento) de un ejercicio, si las hay.
+  const FOTOS = window.FOTOS_EJERCICIOS || { mapa: {}, locales: [], local: "", remoto: "" };
+  function fotos(id) {
+    let carpeta = FOTOS.mapa[id];
+    if (!carpeta) return null;
+    const aprox = carpeta.startsWith("~");
+    if (aprox) carpeta = carpeta.slice(1);
+    const base = FOTOS.locales.includes(carpeta) ? FOTOS.local : FOTOS.remoto;
+    return { inicio: `${base}${carpeta}/0.jpg`, fin: `${base}${carpeta}/1.jpg`, aprox };
+  }
+  // Las dos fotos alternándose. Si una no carga, el bloque se quita solo.
+  function htmlFotos(id, nombre) {
+    const f = fotos(id);
+    if (!f) return "";
+    const quitar = "this.closest('.demo').remove()";
+    return `
+      <figure class="demo">
+        <div class="demo__marco">
+          <img src="${esc(f.inicio)}" alt="Posición inicial de ${esc(nombre)}" onerror="${quitar}">
+          <img src="${esc(f.fin)}" alt="Posición final de ${esc(nombre)}" class="demo__fin" onerror="${quitar}">
+          <span class="demo__fase" aria-hidden="true"><b>Inicio</b><b>Fin</b></span>
+        </div>
+        ${f.aprox ? '<figcaption>La foto muestra una variante parecida, no exactamente este ejercicio.</figcaption>' : ""}
+      </figure>`;
+  }
+
   const ICONOS = {
     cerrar: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
     arriba: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>',
@@ -94,6 +120,6 @@
   window.NM = window.NM || {};
   window.NM.util = {
     $, esc, normalizar, numero, kgTxt, formatoSeries, hoyISO, fechaDe, fechaCorta, diaMes, sumarDias, lunesDe, aviso, almacen,
-    descargarJSON, slug, ejercicio, ICONOS,
+    descargarJSON, slug, ejercicio, fotos, htmlFotos, ICONOS,
   };
 })();

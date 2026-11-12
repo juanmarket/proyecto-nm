@@ -25,9 +25,22 @@
 
   // ---------- Ficha de un ejercicio ----------
   const dialogo = $("#detalle");
-  function abrirDetalle(id) {
-    const e = U.ejercicio(id);
-    if (e.propio) return;
+  function abrirDetalle(id, nombre) {
+    const e = U.ejercicio(id, nombre);
+    const demo = U.htmlFotos(id, e.nombre);
+    if (e.propio) {
+      // Ejercicio propio: solo hay ficha si tiene fotos de ejemplo.
+      if (!demo) return;
+      $("#detalle-contenido").innerHTML = `
+        <div class="detalle__cabecera">
+          <h2 id="detalle-titulo">${esc(e.nombre)}</h2>
+          <button type="button" class="cerrar" data-cerrar aria-label="Cerrar">${ICONOS.cerrar}</button>
+        </div>
+        ${demo}`;
+      if (!dialogo.open) dialogo.showModal();
+      $(".cerrar", dialogo).focus();
+      return;
+    }
     const youtube = "https://www.youtube.com/results?search_query=" + encodeURIComponent(`${e.nombreEn} exercise form`);
     $("#detalle-contenido").innerHTML = `
       <div class="detalle__cabecera">
@@ -37,6 +50,7 @@
         </div>
         <button type="button" class="cerrar" data-cerrar aria-label="Cerrar">${ICONOS.cerrar}</button>
       </div>
+      ${demo}
       <div class="detalle__resumen">
         <div class="mapa">${NM.mapa.trabajo(e.musculo, e.secundarios)}</div>
         <div>
