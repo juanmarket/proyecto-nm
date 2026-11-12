@@ -1,0 +1,71 @@
+{
+  "tipo": "nm-plan",
+  "version": 1,
+  "rutina": {
+    "notas": "Semana tipo: lunes Torso A · martes Pierna A · jueves Torso B · sábado Torso C. Si esa semana puedes un quinto día, haz Pierna B el viernes.\nLos 4 días fijos ya cubren pecho, espalda, hombros y brazos tres veces por semana y la pierna una vez. Pierna B es el extra: intenta hacerla al menos una semana sí y otra no.\nCalentamiento: 5 min de movilidad y 2 series ligeras del primer ejercicio.\nEsfuerzo: termina cada serie sintiendo que te quedaban 1–2 repeticiones buenas. La última serie de cada ejercicio puede ir casi al límite.\nProgresión: sigue el objetivo que te marca la app en cada ejercicio. Lo normal es sumar una repetición, no subir peso cada semana.\nPara ahorrar tiempo puedes alternar sin descanso curl con tríceps y elevación lateral con posterior.",
+    "dias": [
+      {
+        "titulo": "Torso A · pecho y espalda",
+        "notas": "65–75 min",
+        "ejercicios": [
+          { "id": "0314", "nombre": "Press de banca inclinado con mancuernas", "series": 4, "reps": "8–12", "descanso": "2 min", "notas": "Banco a unos 30°. Baja controlado hasta sentir el estiramiento del pecho." },
+          { "id": "0652", "nombre": "Dominada", "series": 4, "reps": "5–10", "descanso": "2 min", "notas": "Si no llegas a 5: ayúdate con una banda o haz solo la bajada en 4–5 segundos." },
+          { "id": "0289", "nombre": "Press de banca con mancuernas", "series": 3, "reps": "8–12", "descanso": "2 min", "notas": "Banco plano. Escápulas juntas y pies firmes en el suelo." },
+          { "id": "0292", "nombre": "Remo a una mano con mancuerna", "series": 3, "reps": "8–12", "descanso": "75 s", "notas": "Por lado. Mano y rodilla apoyadas en el banco; lleva el codo hacia la cadera." },
+          { "id": "0334", "nombre": "Elevación lateral con mancuernas", "series": 3, "reps": "12–20", "descanso": "60 s", "notas": "Peso ligero y sin impulso. Es el ejercicio clave para hombros anchos." },
+          { "id": "0318", "nombre": "Curl inclinado con mancuernas", "series": 3, "reps": "10–15", "descanso": "60 s", "notas": "Banco a 45–60°, brazos colgando por detrás del cuerpo." },
+          { "id": "2188", "nombre": "Extensión de tríceps sentado con mancuerna", "series": 3, "reps": "10–15", "descanso": "60 s", "notas": "Una mancuerna con las dos manos por detrás de la cabeza; codos apuntando al frente." }
+        ]
+      },
+      {
+        "titulo": "Pierna A · completa",
+        "notas": "60–70 min. Es tu día fijo de pierna: no lo saltes.",
+        "ejercicios": [
+          { "id": "0410", "nombre": "Sentadilla búlgara con mancuernas", "series": 4, "reps": "8–12", "descanso": "90 s", "notas": "Por pierna. Pie trasero sobre el banco; baja recto y empuja con la pierna de delante." },
+          { "id": "1459", "nombre": "Peso muerto rumano con mancuernas", "series": 4, "reps": "8–12", "descanso": "2 min", "notas": "Espalda recta, cadera hacia atrás, rodillas apenas flexionadas. Baja hasta media espinilla." },
+          { "id": "1760", "nombre": "Sentadilla goblet con mancuerna", "series": 4, "reps": "12–20", "descanso": "90 s", "notas": "Baja en 3 segundos. Talones sobre un disco si te cuesta bajar." },
+          { "id": "0339", "nombre": "Curl femoral acostado con mancuerna", "series": 3, "reps": "10–15", "descanso": "60 s", "notas": "Boca abajo en el banco con la mancuerna sujeta entre los pies. Empieza muy ligero." },
+          { "id": "0409", "nombre": "Elevación de talones a una pierna con mancuerna", "series": 3, "reps": "10–15", "descanso": "45 s", "notas": "Por pierna, en un escalón. Pausa de 1 segundo arriba y estira bien abajo." },
+          { "id": "0472", "nombre": "Elevación de piernas colgado", "series": 3, "reps": "8–15", "descanso": "60 s", "notas": "Empieza con las rodillas flexionadas. Sin balancearte." }
+        ]
+      },
+      {
+        "titulo": "Torso B · hombros y espalda",
+        "notas": "65–75 min",
+        "ejercicios": [
+          { "id": "0405", "nombre": "Press de hombros sentado con mancuernas", "series": 4, "reps": "8–12", "descanso": "2 min", "notas": "Respaldo casi vertical, sin arquear la espalda." },
+          { "id": "1326", "nombre": "Dominada supina", "series": 4, "reps": "5–10", "descanso": "2 min", "notas": "Palmas hacia ti. Misma ayuda que en la dominada si hace falta." },
+          { "id": "0251", "nombre": "Fondos de pecho", "series": 3, "reps": "6–12", "descanso": "2 min", "notas": "Inclínate hacia delante para cargar el pecho. Baja solo hasta donde el hombro esté cómodo." },
+          { "id": "0327", "nombre": "Remo con pecho apoyado en banco inclinado", "series": 3, "reps": "10–15", "descanso": "75 s", "notas": "Boca abajo en el banco inclinado. Junta las escápulas arriba." },
+          { "id": "0334", "nombre": "Elevación lateral con mancuernas", "series": 4, "reps": "12–20", "descanso": "60 s", "notas": "" },
+          { "id": "0326", "nombre": "Elevación posterior en banco inclinado", "series": 3, "reps": "12–20", "descanso": "60 s", "notas": "Pecho apoyado en el banco, peso ligero. Trabaja la parte de atrás del hombro." },
+          { "id": "0372", "nombre": "Curl en banco Scott con mancuernas", "series": 3, "reps": "8–12", "descanso": "60 s", "notas": "Usa el predicador del banco. Extiende casi del todo abajo." }
+        ]
+      },
+      {
+        "titulo": "Torso C · brazos y hombros",
+        "notas": "55–65 min. Sesión más ligera, de detalle.",
+        "ejercicios": [
+          { "id": "0319", "nombre": "Aperturas inclinadas con mancuernas", "series": 3, "reps": "10–15", "descanso": "75 s", "notas": "Banco a 30°. Codos ligeramente flexionados; trabaja el pecho superior." },
+          { "id": "0651", "nombre": "Dominada con agarre neutro", "series": 3, "reps": "5–10", "descanso": "2 min", "notas": "Palmas enfrentadas, o el agarre que permita tu barra." },
+          { "id": "0334", "nombre": "Elevación lateral con mancuernas", "series": 4, "reps": "12–20", "descanso": "60 s", "notas": "" },
+          { "id": "0313", "nombre": "Curl martillo con mancuernas", "series": 3, "reps": "10–15", "descanso": "60 s", "notas": "" },
+          { "id": "0351", "nombre": "Extensión de tríceps acostado con mancuernas", "series": 3, "reps": "10–15", "descanso": "60 s", "notas": "Codos quietos apuntando al techo; baja las mancuernas a los lados de la cabeza." },
+          { "id": "0380", "nombre": "Elevación lateral posterior con mancuernas", "series": 3, "reps": "15–20", "descanso": "60 s", "notas": "Torso inclinado hacia delante, peso ligero." },
+          { "id": "0277", "nombre": "Crunch declinado", "series": 3, "reps": "12–20", "descanso": "60 s", "notas": "Banco declinado con los pies sujetos en los rodillos." }
+        ]
+      },
+      {
+        "titulo": "Opcional · Pierna B",
+        "notas": "45–55 min. Solo si esa semana puedes un quinto día.",
+        "ejercicios": [
+          { "id": "0381", "nombre": "Zancada hacia atrás con mancuernas", "series": 4, "reps": "10–12", "descanso": "90 s", "notas": "Por pierna. Paso largo y torso erguido." },
+          { "id": "1757", "nombre": "Peso muerto a una pierna con mancuerna", "series": 3, "reps": "8–12", "descanso": "90 s", "notas": "Por pierna. Apoya una mano en el banco si pierdes el equilibrio." },
+          { "nombre": "Hip thrust a una pierna con mancuerna", "series": 3, "reps": "10–15", "descanso": "60 s", "notas": "Por pierna. Espalda alta apoyada en el banco y mancuerna sobre la cadera; aprieta el glúteo arriba." },
+          { "id": "1760", "nombre": "Sentadilla goblet con pausa", "series": 3, "reps": "10–15", "descanso": "90 s", "notas": "Pausa de 2 segundos abajo en cada repetición." },
+          { "id": "0417", "nombre": "Elevación de talones de pie con mancuernas", "series": 4, "reps": "12–20", "descanso": "45 s", "notas": "En un escalón, con las dos piernas." }
+        ]
+      }
+    ]
+  }
+}

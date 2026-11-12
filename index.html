@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proyecto NM · Transformación física</title>
+  <meta name="description" content="Rutina, dieta, fotos y progreso de mi transformación física.">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="cabecera__marca">
+      <span class="marca__logo" aria-hidden="true">NM</span>
+      <div>
+        <p class="marca__nombre">Proyecto NM</p>
+        <p class="marca__sub">Transformación física</p>
+      </div>
+    </div>
+    <nav class="nav" aria-label="Secciones">
+      <a class="nav__link" href="#rutina" data-seccion="rutina">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3 9v6M21 9v6M6.5 12h11"/></svg>
+        Rutina
+      </a>
+      <a class="nav__link" href="#dieta" data-seccion="dieta">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v5M9 3v5M17 21V3c-2 1-3 4-3 7s1 4 3 4"/></svg>
+        Dieta
+      </a>
+      <a class="nav__link" href="#fotos" data-seccion="fotos">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+        Fotos
+      </a>
+      <a class="nav__link" href="#progreso" data-seccion="progreso">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+        Progreso
+      </a>
+      <a class="nav__link" href="#ejercicios" data-seccion="ejercicios">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+        Ejercicios
+      </a>
+    </nav>
+  </header>
+
+  <main id="principal">
+    <!-- RUTINA -->
+    <section class="seccion" id="seccion-rutina" data-seccion="rutina" hidden>
+      <div class="seccion__cabecera">
+        <div class="seccion__intro">
+          <h1>Tu rutina</h1>
+          <p>Tu plan de entrenamiento. Registra cada sesión para ver cuándo subir peso.</p>
+        </div>
+        <div class="seccion__acciones" id="rutina-acciones">
+          <button type="button" class="boton boton--icono" id="editar-rutina">Editar rutina</button>
+          <button type="button" class="boton boton--icono boton--texto" id="imprimir-rutina">Imprimir</button>
+          <label class="boton boton--icono boton--texto">Importar plan<input type="file" id="importar-plan" accept="application/json,.json" hidden></label>
+          <button type="button" class="boton boton--icono boton--texto" id="exportar-plan">Exportar plan</button>
+        </div>
+      </div>
+      <details class="panel consejos progresion" id="progresion">
+        <summary><h2>Sobrecarga progresiva: cómo te guía la app</h2></summary>
+        <ol>
+          <li><strong>Primera sesión:</strong> en cada ejercicio elige un peso con el que llegues al mínimo del rango sintiendo que te quedaban 2 repeticiones. Ese es tu punto de partida.</li>
+          <li><strong>Cada sesión siguiente</strong> el objetivo es pequeño: el mismo peso y una repetición más en total. La app te marca en qué serie.</li>
+          <li><strong>Subes de peso</strong> solo cuando dominas el peso actual en todas las series. Si el salto de tus discos es grande, la app te pide pasar del tope del rango antes de subir, para que con el peso nuevo puedas volver al mínimo.</li>
+          <li><strong>Si quedas muy por debajo del mínimo</strong> en todas las series, te dice que bajes el peso.</li>
+          <li><strong>Si ya usas tu peso máximo,</strong> el objetivo pasa a ser más repeticiones o bajar más lento.</li>
+          <li><strong>Si llevas 4 sesiones sin avanzar</strong> en un ejercicio, te avisa.</li>
+        </ol>
+        <p class="progresion__ritmo">Ritmo normal: los primeros meses sumarás una repetición casi cada sesión; después, cada dos o tres. Con saltos de 2,5 kg (un 15–25 % de golpe), subir de peso en un ejercicio puede tardar varios meses. Mientras tanto progresas sumando repeticiones, que hace crecer el músculo de forma similar. Con discos más pequeños los saltos serían más frecuentes. No cumplir el objetivo un día es normal.</p>
+        <div class="progresion__ajustes">
+          <label class="selector"><span>Salto mínimo de peso (kg)</span>
+            <input type="number" id="prog-paso" step="0.25" min="0.25" max="50" inputmode="decimal">
+          </label>
+          <label class="selector"><span>Peso máximo por mancuerna (kg)</span>
+            <input type="number" id="prog-maximo" step="0.5" min="1" max="500" inputmode="decimal">
+          </label>
+        </div>
+        <p class="medidas-form__ayuda">El salto es lo mínimo que puedes subirle a una mancuerna con tus discos (dos discos del más pequeño, uno por lado).</p>
+      </details>
+      <div id="rutina-vista"></div>
+    </section>
+
+    <!-- DIETA -->
+    <section class="seccion" id="seccion-dieta" data-seccion="dieta" hidden>
+      <div class="seccion__cabecera">
+        <div class="seccion__intro">
+          <h1>Tu dieta</h1>
+          <p>Objetivos diarios y comidas de tu plan.</p>
+        </div>
+        <div class="seccion__acciones" id="dieta-acciones">
+          <button type="button" class="boton boton--icono" id="editar-dieta">Editar dieta</button>
+        </div>
+      </div>
+      <div id="dieta-vista"></div>
+    </section>
+
+    <!-- FOTOS -->
+    <section class="seccion" id="seccion-fotos" data-seccion="fotos" hidden>
+      <div class="seccion__intro">
+        <h1>Fotos de progreso</h1>
+        <p>La cámara muestra tu foto anterior en transparencia para que te pongas igual. Las fotos se guardan solo en este dispositivo.</p>
+      </div>
+
+      <div class="panel fotos-barra">
+        <div class="pestanas pestanas--grandes" role="group" aria-label="Pose" id="poses">
+          <button type="button" class="pestana" data-pose="frente">Frente</button>
+          <button type="button" class="pestana" data-pose="perfil">Perfil</button>
+          <button type="button" class="pestana" data-pose="espalda">Espalda</button>
+        </div>
+        <div class="fotos-barra__acciones">
+          <label class="boton boton--icono boton--texto">Subir foto<input type="file" id="subir-foto" accept="image/*" hidden></label>
+          <button type="button" class="boton boton--primario" id="tomar-foto">Tomar foto</button>
+        </div>
+      </div>
+
+      <div class="fotos-cuerpo">
+        <div class="panel" id="comparador-panel"></div>
+        <div class="panel">
+          <div class="grafica__cabecera"><h2>Historial</h2><span class="bloque__meta" id="fotos-conteo"></span></div>
+          <ul class="galeria" id="galeria"></ul>
+        </div>
+      </div>
+
+      <details class="panel consejos">
+        <summary><h2>Cómo lograr fotos comparables</h2></summary>
+        <ul>
+          <li>Mismo lugar, misma luz y misma hora (idealmente en la mañana, en ayunas, antes de entrenar).</li>
+          <li>Teléfono a la misma altura y distancia: apóyalo siempre en el mismo sitio y usa el temporizador.</li>
+          <li>Misma ropa y postura relajada. No metas el abdomen ni lo infles.</li>
+          <li>Alinea pies, cadera y cabeza con la silueta anterior antes de disparar.</li>
+          <li>Una vez por semana o cada dos semanas basta: el cambio diario no se nota.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- EJERCICIOS -->
+    <section class="seccion" id="seccion-ejercicios" data-seccion="ejercicios" hidden>
+      <div class="seccion__intro">
+        <h1>Ejercicios</h1>
+        <p><span id="total-ejercicios"></span> ejercicios con instrucciones paso a paso en español.</p>
+      </div>
+
+      <div class="biblioteca">
+        <aside class="panel mapa-panel" aria-label="Mapa muscular">
+          <div class="mapa" id="mapa"></div>
+          <div class="mapa__info">
+            <p class="mapa__titulo" id="mapa-titulo">Toca un músculo</p>
+            <p class="mapa__texto" id="mapa-texto">y verás sus ejercicios.</p>
+            <button type="button" class="boton boton--texto boton--icono" id="mapa-limpiar" hidden>Ver todos</button>
+          </div>
+        </aside>
+
+        <div class="biblioteca__contenido">
+          <div class="panel filtros">
+            <label class="buscador">
+              <span class="sr">Buscar ejercicio</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+              <input type="search" id="buscar" placeholder="Buscar: sentadilla, press, dominada…" autocomplete="off">
+            </label>
+            <label class="selector">
+              <span>Zona</span>
+              <select id="filtro-zona"><option value="">Todas</option></select>
+            </label>
+            <label class="selector">
+              <span>Músculo</span>
+              <select id="filtro-musculo"><option value="">Todos</option></select>
+            </label>
+            <label class="selector">
+              <span>Equipo</span>
+              <select id="filtro-equipo"><option value="">Todo</option></select>
+            </label>
+          </div>
+
+          <p class="conteo" id="conteo" aria-live="polite"></p>
+          <ul class="lista-ejercicios" id="lista-ejercicios"></ul>
+          <div class="mas">
+            <button type="button" class="boton" id="ver-mas" hidden>Ver más</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRESO -->
+    <section class="seccion" id="seccion-progreso" data-seccion="progreso" hidden>
+      <div class="seccion__intro">
+        <h1>Progreso</h1>
+        <p>Pésate a diario o varias veces por semana, a la misma hora y en ayunas: el progreso se mide con el promedio de cada semana.</p>
+      </div>
+
+      <div class="progreso">
+        <form class="panel registro" id="form-progreso">
+          <h2>Nuevo registro</h2>
+          <label class="selector">
+            <span>Fecha</span>
+            <input type="date" id="p-fecha" required>
+          </label>
+          <label class="selector">
+            <span>Peso (kg)</span>
+            <input type="number" id="p-peso" step="0.1" min="20" max="400" inputmode="decimal">
+          </label>
+          <details class="medidas-form">
+            <summary>Medidas en cm <em>opcional</em></summary>
+            <div class="medidas-form__campos">
+              <label class="selector"><span>Cintura</span><input type="number" id="p-cintura" step="0.1" min="30" max="300" inputmode="decimal"></label>
+              <label class="selector"><span>Cadera</span><input type="number" id="p-cadera" step="0.1" min="30" max="300" inputmode="decimal"></label>
+              <label class="selector"><span>Pecho</span><input type="number" id="p-pecho" step="0.1" min="30" max="300" inputmode="decimal"></label>
+              <label class="selector"><span>Brazo</span><input type="number" id="p-brazo" step="0.1" min="10" max="100" inputmode="decimal"></label>
+              <label class="selector"><span>Muslo</span><input type="number" id="p-muslo" step="0.1" min="20" max="150" inputmode="decimal"></label>
+            </div>
+            <p class="medidas-form__ayuda">Llena solo las que puedas. Mídete siempre en el mismo punto y sin apretar la cinta: cintura a la altura del ombligo; brazo y muslo en la parte más ancha. Si te mides solo, hazlo frente al espejo; con la cintura ya tienes un buen indicador.</p>
+          </details>
+          <label class="selector">
+            <span>Nota <em>opcional</em></span>
+            <input type="text" id="p-nota" maxlength="120" placeholder="Ej.: semana de déficit, dormí mal…">
+          </label>
+          <button type="submit" class="boton boton--primario">Guardar</button>
+        </form>
+
+        <div class="progreso__datos">
+          <div class="metricas metricas--4" id="metricas"></div>
+          <div class="panel grafica-panel">
+            <div class="grafica__cabecera">
+              <h2>Evolución</h2>
+              <div class="pestanas" role="group" aria-label="Medida" id="medidas-pestanas"></div>
+            </div>
+            <div id="grafica"></div>
+          </div>
+          <div class="panel">
+            <h2>Estadísticas</h2>
+            <div id="estadisticas"></div>
+          </div>
+          <div class="panel" id="panel-cargas">
+            <div class="grafica__cabecera">
+              <h2>Cargas por ejercicio</h2>
+              <label class="cargas__selector">
+                <span class="sr">Ejercicio</span>
+                <select id="cargas-ejercicio"></select>
+              </label>
+            </div>
+            <div id="grafica-cargas"></div>
+            <div id="cargas-detalle"></div>
+          </div>
+          <div class="panel">
+            <h2>Sesiones</h2>
+            <div id="sesiones-lista"></div>
+          </div>
+          <div class="panel">
+            <h2>Historial de peso y medidas</h2>
+            <div id="historial"></div>
+          </div>
+          <div class="panel">
+            <h2>Copia de seguridad</h2>
+            <p class="cargas__resumen">Todo se guarda solo en este navegador. Descarga una copia de vez en cuando (incluye plan, pesos, sesiones y fotos) por si cambias de teléfono o se borran los datos.</p>
+            <div class="respaldo">
+              <button type="button" class="boton boton--icono" id="exportar">Descargar copia</button>
+              <label class="boton boton--icono boton--texto">
+                Restaurar copia
+                <input type="file" id="importar" accept="application/json,.json" hidden>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>Datos de ejercicios: <a href="https://github.com/hasaneyldrm/exercises-dataset" target="_blank" rel="noopener">exercises-dataset</a> (MIT) © 2026 Hasan Emir Yıldırım. Nombres traducidos al español para este proyecto.</p>
+    <p>Esta herramienta es orientativa y no reemplaza la indicación de un profesional de la salud.</p>
+  </footer>
+
+  <dialog class="detalle" id="detalle" aria-labelledby="detalle-titulo">
+    <div class="detalle__contenido" id="detalle-contenido"></div>
+  </dialog>
+
+  <dialog class="detalle sesion" id="sesion" aria-labelledby="sesion-titulo">
+    <div class="detalle__contenido" id="sesion-contenido"></div>
+  </dialog>
+
+  <dialog class="detalle selector-ej" id="selector" aria-label="Elegir ejercicio">
+    <div class="detalle__contenido">
+      <div class="detalle__cabecera">
+        <h2>Elegir ejercicio</h2>
+        <button type="button" class="cerrar" data-cerrar-selector aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <label class="buscador selector-ej__buscar">
+        <span class="sr">Buscar ejercicio</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+        <input type="search" id="selector-buscar" placeholder="Buscar: press banca, sentadilla…" autocomplete="off">
+      </label>
+      <ul class="selector-ej__lista" id="selector-lista"></ul>
+    </div>
+  </dialog>
+
+  <dialog class="detalle" id="foto-vista" aria-label="Foto">
+    <div class="detalle__contenido" id="foto-vista-contenido"></div>
+  </dialog>
+
+  <div class="camara" id="camara" hidden role="dialog" aria-modal="true" aria-label="Cámara de progreso">
+    <div class="camara__barra">
+      <button type="button" class="camara__btn" id="cam-cerrar" aria-label="Cerrar cámara"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <span class="camara__pose" id="cam-pose"></span>
+      <button type="button" class="camara__btn" id="cam-girar" aria-label="Cambiar entre cámara frontal y trasera"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9 13a3 3 0 0 1 5.2-2M15 13a3 3 0 0 1-5.2 2"/></svg></button>
+    </div>
+    <div class="camara__marco">
+      <div class="camara__visor" id="cam-visor">
+        <video id="cam-video" playsinline muted autoplay></video>
+        <img id="cam-captura" alt="Foto recién tomada" hidden>
+        <img id="cam-fantasma" class="camara__fantasma" alt="" hidden>
+        <svg class="camara__guias" viewBox="0 0 300 400" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="150" y1="0" x2="150" y2="400"/>
+          <line x1="0" y1="133" x2="300" y2="133"/>
+          <line x1="0" y1="266" x2="300" y2="266"/>
+        </svg>
+        <div class="camara__cuenta" id="cam-cuenta" hidden></div>
+        <p class="camara__error" id="cam-error" hidden></p>
+      </div>
+    </div>
+    <div class="camara__controles" id="cam-controles">
+      <label class="camara__opacidad" id="cam-opacidad-control">
+        <span>Foto anterior</span>
+        <input type="range" id="cam-opacidad" min="0" max="80" value="40">
+        <span id="cam-opacidad-valor">40%</span>
+      </label>
+      <div class="camara__botones">
+        <button type="button" class="camara__btn camara__btn--texto" id="cam-temporizador"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg><span id="cam-temporizador-valor">No</span></button>
+        <button type="button" class="camara__disparador" id="cam-disparar" aria-label="Tomar foto"></button>
+        <button type="button" class="camara__btn camara__btn--texto" id="cam-guias" aria-pressed="true">Guías</button>
+      </div>
+    </div>
+    <div class="camara__revision" id="cam-revision" hidden>
+      <label class="camara__fecha"><span>Fecha</span><input type="date" id="cam-fecha"></label>
+      <div class="camara__botones">
+        <button type="button" class="boton" id="cam-repetir">Repetir</button>
+        <button type="button" class="boton boton--primario" id="cam-guardar">Guardar foto</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="data/ejercicios.js"></script>
+  <script src="js/util.js"></script>
+  <script src="js/sesiones.js"></script>
+  <script src="js/mapa.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/plan.js"></script>
+  <script src="js/fotos.js"></script>
+</body>
+</html>
