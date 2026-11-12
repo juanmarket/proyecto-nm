@@ -536,7 +536,8 @@
     $("#dieta-acciones").hidden = editandoDieta;
     if (editandoDieta) return;
     const dieta = plan ? plan.dieta : null;
-    if (!dieta || !dieta.comidas.length) {
+    const hayObjetivos = dieta && MACROS.some(([k]) => dieta.objetivos[k] != null);
+    if (!dieta || (!dieta.comidas.length && !dieta.notas && !hayObjetivos)) {
       cont.innerHTML = `
         <div class="panel vacio-plan">
           <h2>Aún no tienes dieta</h2>
@@ -553,10 +554,12 @@
           return `<div class="metrica">
             <p class="metrica__etiqueta">${etiqueta}</p>
             <p class="metrica__valor">${obj != null ? fmt(obj) : "—"}<small>${u}</small></p>
-            ${hayDatos ? `<p class="metrica__detalle">El plan suma ${fmt(total[k])} ${u}</p>` : ""}
+            ${hayDatos ? `<p class="metrica__detalle">El ejemplo suma ${fmt(total[k])} ${u}</p>` : ""}
           </div>`;
         }).join("")}
       </div>
+      ${dieta.notas ? `<div class="panel notas-plan"><h2>Guía</h2><p>${esc(dieta.notas)}</p></div>` : ""}
+      ${dieta.comidas.length ? '<h2 class="comidas__titulo">Comidas</h2>' : ""}
       <div class="comidas">
         ${dieta.comidas.map((c) => {
           const t = sumar(c.alimentos);
@@ -577,8 +580,7 @@
             ${c.notas ? `<p class="bloque__nota">${esc(c.notas)}</p>` : ""}
           </article>`;
         }).join("")}
-      </div>
-      ${dieta.notas ? `<div class="panel notas-plan"><h2>Notas</h2><p>${esc(dieta.notas)}</p></div>` : ""}`;
+      </div>`;
   }
 
   function pintarEditorDieta() {

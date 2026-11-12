@@ -1,0 +1,48 @@
+{
+  "tipo": "nm-plan",
+  "version": 1,
+  "dieta": {
+    "objetivos": { "kcal": 2350, "proteina": 160, "carbohidratos": 280, "grasas": 65 },
+    "notas": "QUÉ CUMPLIR, EN ORDEN DE IMPORTANCIA\n1. Proteína: 160 g al día (vale entre 140 y 180). Reparte unos 45–55 g en cada comida.\n2. Calorías: cerca de 2.350 al día en promedio semanal. Un día más alto se compensa con otro más bajo.\n3. Carbohidratos y grasas son flexibles mientras cuadren las calorías. Come más carbohidratos en la comida anterior y posterior al entrenamiento.\n\nCORRIENTAZO\n- Proteína a la plancha, asada o sudada. Si la porción es pequeña, pide doble proteína o media porción extra: es lo que más te cuesta completar comiendo fuera.\n- Arroz: una taza. Grano (fríjol o lenteja): sí, suma proteína y fibra.\n- Ensalada o verdura: siempre.\n- Evita lo frito (tajadas, patacón, chicharrón, empanada) o cuéntalo: cada fritura suma 150–250 kcal.\n- Jugo: en agua y sin azúcar, o cámbialo por agua.\n\nBEBIDAS\n- Café: libre si es sin azúcar. La leche y el azúcar se cuentan.\n- Cerveza: cada una (330 mL) son unas 140 kcal. Cuéntala dentro del día.\n- Agua: 2,5 a 3 litros al día.\n\nSUPLEMENTOS\n- Whey Vital Plus: 3 scoops al día (30 g de proteína). Ya trae 3 g de creatina.\n- Creatina: todos los días, también los de descanso. Si un día no tomas el batido, tómala aparte (3–5 g).\n\nCÓMO AJUSTAR\nRevisa cada 2 semanas el promedio semanal de peso en Progreso, junto con la cintura y tus cargas.\n- Va bien: peso estable o bajando hasta 0,25 kg por semana, cintura bajando y cargas subiendo.\n- Si bajas más de 0,4 kg por semana: sube 150 kcal (media taza más de arroz o avena).\n- Si subes más de 0,25 kg por semana dos semanas seguidas y la cintura también sube: baja 150 kcal.\n\nLos valores del corrientazo, las carnes y la fruta son estimados; los de tus alimentos empacados salen de tu tabla.",
+    "comidas": [
+      {
+        "nombre": "Desayuno",
+        "hora": "Mañana",
+        "notas": "Ejemplo con tus alimentos. Meta: unas 700 kcal y 45–50 g de proteína.",
+        "alimentos": [
+          { "nombre": "Avena en hojuelas", "cantidad": "60 g", "kcal": 230, "proteina": 8.5, "carbohidratos": 40, "grasas": 5 },
+          { "nombre": "Leche entera Montefrío", "cantidad": "300 mL", "kcal": 183, "proteina": 9.9, "carbohidratos": 14.4, "grasas": 9.6 },
+          { "nombre": "Whey Vital Plus", "cantidad": "3 scoops (51 g)", "kcal": 177, "proteina": 30, "carbohidratos": 10, "grasas": 1.9 },
+          { "nombre": "Banano", "cantidad": "1 mediano", "kcal": 107, "proteina": 1.3, "carbohidratos": 27.4, "grasas": 0.4 }
+        ]
+      },
+      {
+        "nombre": "Almuerzo · corrientazo",
+        "hora": "Mediodía",
+        "notas": "Valores estimados. Meta: unas 800–850 kcal y 50–60 g de proteína.",
+        "alimentos": [
+          { "nombre": "Pollo, res o cerdo magro a la plancha", "cantidad": "130 g cocido", "kcal": 215, "proteina": 40, "carbohidratos": 0, "grasas": 4.7 },
+          { "nombre": "Arroz blanco", "cantidad": "1 taza (160 g)", "kcal": 208, "proteina": 4.3, "carbohidratos": 45, "grasas": 0.4 },
+          { "nombre": "Fríjoles o lentejas", "cantidad": "1 cucharón (150 g)", "kcal": 190, "proteina": 13, "carbohidratos": 34, "grasas": 0.8 },
+          { "nombre": "Sopa del día", "cantidad": "1 taza", "kcal": 100, "proteina": 4, "carbohidratos": 14, "grasas": 3 },
+          { "nombre": "Ensalada", "cantidad": "1 porción", "kcal": 25, "proteina": 1, "carbohidratos": 5, "grasas": 0.2 },
+          { "nombre": "Grasa de cocción", "cantidad": "unos 10 g", "kcal": 90, "proteina": 0, "carbohidratos": 0, "grasas": 10 }
+        ]
+      },
+      {
+        "nombre": "Cena · después de entrenar",
+        "hora": "Noche",
+        "notas": "Ejemplo: tacos con tus tortillas. Meta: unas 800–850 kcal y 55–65 g de proteína.",
+        "alimentos": [
+          { "nombre": "Pollo o carne magra", "cantidad": "150 g cocido", "kcal": 248, "proteina": 46.5, "carbohidratos": 0, "grasas": 5.4 },
+          { "nombre": "Tortilla normal (ARA)", "cantidad": "3 unidades", "kcal": 279, "proteina": 7.5, "carbohidratos": 51, "grasas": 5.7 },
+          { "nombre": "Maíz dulce", "cantidad": "1 taza (85 g)", "kcal": 62, "proteina": 2.9, "carbohidratos": 13, "grasas": 0.8 },
+          { "nombre": "Queso mozzarella (ARA)", "cantidad": "2 cucharadas", "kcal": 106, "proteina": 7.8, "carbohidratos": 2.2, "grasas": 7.2 },
+          { "nombre": "Salsa chipotle (D1)", "cantidad": "1 cucharada", "kcal": 27, "proteina": 0.1, "carbohidratos": 0.9, "grasas": 2.5 },
+          { "nombre": "Verduras (tomate, lechuga, cebolla)", "cantidad": "150 g", "kcal": 35, "proteina": 1.5, "carbohidratos": 7, "grasas": 0.3 },
+          { "nombre": "Fruta", "cantidad": "1 porción", "kcal": 80, "proteina": 0.5, "carbohidratos": 20, "grasas": 0.3 }
+        ]
+      }
+    ]
+  }
+}
