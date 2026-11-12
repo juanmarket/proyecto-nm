@@ -4,8 +4,11 @@ App personal para seguir mi transformación: rutina, dieta, fotos de progreso, p
 
 ## Cómo abrirla
 
-- **En el computador:** doble clic en `index.html`.
-- **En el celular:** la cámara solo funciona si la app se abre desde una dirección `https` (por ejemplo, publicada en GitHub Pages o Netlify). Sin eso, usa «Subir foto».
+- **Publicada:** https://juanmarket.github.io/proyecto-nm/ (GitHub Pages, repositorio público `juanmarket/proyecto-nm`). Es la que se usa en el celular; por ser `https`, la cámara funciona.
+- **En el computador, sin internet:** doble clic en `index.html`. Ahí la cámara en vivo no está disponible; usa «Subir foto».
+- **Cargar un plan con un enlace:** `https://juanmarket.github.io/proyecto-nm/?plan=planes/ARCHIVO.json` importa ese archivo de la carpeta `planes/`.
+
+Para publicar cambios: `git push` a la rama `main`; GitHub Pages se actualiza solo en uno o dos minutos.
 
 Todo se guarda solo en el navegador donde la uses. Cada dispositivo tiene sus propios datos. Usa **Progreso → Descargar copia** de vez en cuando.
 
