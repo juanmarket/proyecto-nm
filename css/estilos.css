@@ -647,3 +647,67 @@ textarea:focus { outline: none; border-color: var(--tinta); background: var(--su
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- Contador diario ---------- */
+#diario { display: grid; gap: 16px; margin-bottom: 24px; }
+.diario__cuerpo { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .diario__cuerpo { grid-template-columns: 1fr; } }
+.diario__fecha { display: flex; align-items: center; gap: 6px; }
+.diario__fecha input { width: auto; min-height: 36px; padding: 0 8px; font-size: 0.85rem; }
+.diario__fecha .icono-btn { font-size: 1.1rem; font-weight: 700; line-height: 1; }
+.diario__fecha .icono-btn:disabled { opacity: 0.35; cursor: default; }
+.diario__barras { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+.barra--kcal, .barra--proteina { grid-column: 1 / -1; }
+.barra__texto { display: flex; justify-content: space-between; gap: 8px; font-size: 0.82rem; color: var(--tenue); font-variant-numeric: tabular-nums; }
+.barra__texto > span:first-child { font-weight: 650; }
+.barra__texto strong { color: var(--tinta); font-size: 1.05rem; }
+.barra--kcal .barra__texto strong, .barra--proteina .barra__texto strong { font-size: 1.3rem; letter-spacing: -0.01em; }
+.barra__pista { height: 8px; margin-top: 5px; border-radius: 999px; background: var(--superficie-2); border: 1px solid var(--borde); overflow: hidden; }
+.barra--kcal .barra__pista, .barra--proteina .barra__pista { height: 12px; }
+.barra__relleno { height: 100%; border-radius: 999px; background: var(--tinta); transition: width 0.3s ease; }
+.barra--proteina .barra__relleno { background: var(--acento); }
+.barra--carbohidratos .barra__relleno, .barra--grasas .barra__relleno { background: #8b909b; }
+.barra.cumplida .barra__relleno { background: var(--exito); }
+.barra.pasada .barra__relleno { background: #c98a00; }
+.diario__resumen { margin-top: 14px; font-weight: 650; font-size: 0.95rem; }
+.diario__lista { list-style: none; margin: 12px 0 0; padding: 0; }
+.diario__lista li { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 8px 0; border-top: 1px solid var(--borde); font-size: 0.9rem; }
+.diario__lista .icono-btn { width: 30px; height: 30px; border-radius: 8px; }
+.diario__lista .icono-btn svg { width: 14px; height: 14px; }
+.diario__form { display: grid; gap: 12px; }
+.diario__form > .boton { justify-self: start; }
+.diario__cantidad, .diario__fila2 { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; }
+.diario__fila2 { grid-template-columns: 1.6fr 1fr; }
+.diario__macros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.diario__macros input { padding: 0 8px; }
+.diario__previa { padding: 10px 12px; border-radius: var(--radio-sm); background: var(--superficie-2); font-size: 0.88rem; font-weight: 650; font-variant-numeric: tabular-nums; }
+.diario__plan { display: grid; gap: 8px; }
+.diario__recientes { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--borde); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.chip {
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  padding: 6px 12px; border-radius: 999px; border: 1px solid var(--borde); background: var(--superficie-2);
+  font: inherit; font-size: 0.82rem; font-weight: 600; color: var(--tinta); cursor: pointer;
+}
+.chip:hover { border-color: var(--tinta); }
+.chip em { font-style: normal; font-weight: 500; color: var(--tenue); }
+.diario__alimentos { list-style: none; margin: 12px 0 0; padding: 0; }
+.diario__alimentos li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--borde); font-size: 0.9rem; }
+.diario__alimentos li:first-child { border-top: 0; }
+.diario__alimentos .bloque__meta { display: block; font-variant-numeric: tabular-nums; }
+.diario__alimentos .borrar, #diario-semana .borrar { border: 0; background: none; color: var(--tenue); cursor: pointer; padding: 4px 8px; border-radius: 6px; font: inherit; font-size: 0.82rem; }
+.diario__alimentos .borrar:hover, #diario-semana .borrar:hover { color: var(--tinta); background: var(--superficie-2); }
+.diario__form--alimento { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--borde); }
+.dieta__titulo-plan { margin-top: 8px; }
+@media (max-width: 520px) {
+  .diario__macros { grid-template-columns: 1fr 1fr; }
+  .diario__fila2 { grid-template-columns: 1fr; }
+  .diario__lista li { grid-template-columns: 1fr auto; }
+  .diario__lista .alimento__macros { grid-column: 1; grid-row: 2; }
+  .diario__lista .icono-btn { grid-row: 1 / span 2; grid-column: 2; }
+}
+@media print { #diario, .dieta__titulo-plan { display: none !important; } }
+@media (max-width: 520px) {
+  .barra--carbohidratos .barra__texto, .barra--grasas .barra__texto { font-size: 0.74rem; white-space: nowrap; }
+  .barra--carbohidratos .barra__texto strong, .barra--grasas .barra__texto strong { font-size: 0.92rem; }
+}

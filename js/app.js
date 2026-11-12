@@ -19,6 +19,7 @@
     });
     if (actual === "progreso") dibujarProgreso();
     if (actual === "fotos" && window.NM.fotos) window.NM.fotos.mostrar();
+    if (actual === "dieta" && window.NM.diario) window.NM.diario.pintar();
   }
   window.addEventListener("hashchange", () => { mostrarSeccion(); window.scrollTo(0, 0); });
 
@@ -509,6 +510,7 @@
     U.descargarJSON({
       tipo: "nm-copia", version: 3, exportado: new Date().toISOString(),
       progreso: registros, plan: window.NM.plan.obtener(), progresion: window.NM.plan.ajustes(), sesiones: S.todas(), fotos,
+      ...(window.NM.diario ? window.NM.diario.exportar() : {}),
     }, `proyecto-nm-copia-${hoyISO()}.json`);
   }
 
@@ -519,13 +521,15 @@
     const sesiones = (Array.isArray(datos.sesiones) ? datos.sesiones : []).filter(S.valida);
     const fotos = Array.isArray(datos.fotos) ? datos.fotos : [];
     const plan = datos.plan && datos.plan.tipo === "nm-plan" ? datos.plan : null;
-    if (!progreso.length && !sesiones.length && !fotos.length && !plan) { aviso("Ese archivo no es una copia válida"); return; }
+    const hayDiario = datos.diario && typeof datos.diario === "object" && Object.keys(datos.diario).length > 0;
+    if (!progreso.length && !sesiones.length && !fotos.length && !plan && !hayDiario) { aviso("Ese archivo no es una copia válida"); return; }
     if (!confirm(`Se reemplazarán tus datos por la copia: ${progreso.length} registros de peso y medidas, ${sesiones.length} sesiones, ${fotos.length} fotos${plan ? " y tu plan" : ""}. ¿Continuar?`)) return;
     registros = progreso;
     S.reemplazar(sesiones);
     if (plan) window.NM.plan.reemplazar(plan);
     if (datos.progresion && typeof datos.progresion === "object") window.NM.plan.fijarAjustes(datos.progresion);
     if (window.NM.fotos) await window.NM.fotos.importar(fotos);
+    if (window.NM.diario && (datos.diario || datos.alimentos)) window.NM.diario.importar({ diario: datos.diario || {}, alimentos: datos.alimentos });
     guardarProgreso();
     window.NM.plan.repintar();
     aviso("Copia restaurada");

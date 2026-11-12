@@ -89,6 +89,7 @@
     almacen.guardar("nm.plan", plan);
     pintarRutina();
     pintarDieta();
+    if (window.NM.diario) window.NM.diario.pintar(); // los objetivos pueden haber cambiado
   }
 
   const copia = (o) => JSON.parse(JSON.stringify(o));
@@ -534,6 +535,7 @@
     const cont = $("#dieta-vista");
     if (!cont) return;
     $("#dieta-acciones").hidden = editandoDieta;
+    $("#diario").hidden = editandoDieta;
     if (editandoDieta) return;
     const dieta = plan ? plan.dieta : null;
     const hayObjetivos = dieta && MACROS.some(([k]) => dieta.objetivos[k] != null);

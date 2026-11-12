@@ -16,7 +16,10 @@ Todo se guarda solo en el navegador donde la uses. Cada dispositivo tiene sus pr
 
 - **Rutina:** el plan de entrenamiento. Se edita con «Editar rutina» y se carga con «Importar plan». Cada día tiene «Registrar sesión» para anotar kg y repeticiones, con borrador automático.
 - **Sobrecarga progresiva:** a partir de la última sesión, cada ejercicio muestra el objetivo de hoy (mismo peso con una repetición más, subir peso al completar el rango, bajar si no se llega al mínimo, aviso de estancamiento). El salto de peso y el peso máximo se ajustan en la sección Rutina. La lógica está en `sugerencia()` de `js/sesiones.js`.
-- **Dieta:** objetivos diarios (kcal y macros) y comidas con sus alimentos. Se edita con «Editar dieta».
+- **Dieta:**
+  - Contador diario: se anota lo que se come (desde «Mis alimentos», una comida del plan o una entrada rápida) y muestra cuánto falta para los objetivos de calorías y proteína. Incluye repetir entradas recientes y el promedio de los últimos 7 días.
+  - «Mis alimentos»: tabla propia con valores por 100 g o mL y una porción práctica. Empieza con los 13 alimentos de la tabla nutricional del usuario y 6 genéricos estimados.
+  - El plan: objetivos diarios, guía y comidas de ejemplo. Se edita con «Editar dieta».
 - **Fotos:** frente, perfil y espalda. La cámara muestra la foto anterior de la misma pose en transparencia (opacidad ajustable), con guías y temporizador. Comparador antes/después deslizable o lado a lado.
 - **Progreso:**
   - Peso: se registra a diario o varias veces por semana y se compara el **promedio de cada semana** (lunes a domingo). Muestra cambio frente a la semana anterior, ritmo en kg/semana y cambio total.
@@ -37,6 +40,7 @@ El plan se arma en el chat con Claude y se entrega como un archivo `.json` que s
 | `js/util.js` | Utilidades comunes |
 | `js/app.js` | Navegación, biblioteca, progreso y copia de seguridad |
 | `js/plan.js` | Rutina, dieta, editores y registro de sesiones |
+| `js/diario.js` | Contador diario de calorías y macros, y tabla de alimentos |
 | `js/fotos.js` | Cámara con foto anterior, galería y comparador |
 | `js/sesiones.js` | Historial de cargas y aviso de subir peso |
 | `js/mapa.js` | Mapa muscular en SVG |
