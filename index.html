@@ -2,7 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0b0f">
+  <meta name="color-scheme" content="dark">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/iconos/icono-32.png">
+  <link rel="apple-touch-icon" href="img/iconos/icono-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Proyecto NM">
   <title>Proyecto NM · Transformación física</title>
   <meta name="description" content="Rutina, dieta, fotos y progreso de mi transformación física.">
   <link rel="stylesheet" href="css/estilos.css">
@@ -44,17 +53,12 @@
     <!-- RUTINA -->
     <section class="seccion" id="seccion-rutina" data-seccion="rutina" hidden>
       <div class="seccion__cabecera">
-        <div class="seccion__intro">
-          <h1>Tu rutina</h1>
-          <p>Tu plan de entrenamiento. Registra cada sesión para ver cuándo subir peso.</p>
-        </div>
+        <h1>Tu rutina</h1>
         <div class="seccion__acciones" id="rutina-acciones">
-          <button type="button" class="boton boton--icono" id="editar-rutina">Editar rutina</button>
-          <button type="button" class="boton boton--icono boton--texto" id="imprimir-rutina">Imprimir</button>
-          <label class="boton boton--icono boton--texto">Importar plan<input type="file" id="importar-plan" accept="application/json,.json" hidden></label>
-          <button type="button" class="boton boton--icono boton--texto" id="exportar-plan">Exportar plan</button>
+          <button type="button" class="boton boton--icono" id="editar-rutina">Editar</button>
         </div>
       </div>
+      <div id="rutina-vista"></div>
       <details class="panel consejos progresion" id="progresion">
         <summary><h2>Sobrecarga progresiva: cómo te guía la app</h2></summary>
         <ol>
@@ -76,18 +80,19 @@
         </div>
         <p class="medidas-form__ayuda">El salto es lo mínimo que puedes subirle a una mancuerna con tus discos (dos discos del más pequeño, uno por lado).</p>
       </details>
-      <div id="rutina-vista"></div>
+      <div class="seccion__acciones seccion__acciones--pie" id="rutina-opciones">
+        <button type="button" class="boton boton--icono boton--texto" id="imprimir-rutina">Imprimir rutina</button>
+        <label class="boton boton--icono boton--texto">Importar plan<input type="file" id="importar-plan" accept="application/json,.json" hidden></label>
+        <button type="button" class="boton boton--icono boton--texto" id="exportar-plan">Exportar plan</button>
+      </div>
     </section>
 
     <!-- DIETA -->
     <section class="seccion" id="seccion-dieta" data-seccion="dieta" hidden>
       <div class="seccion__cabecera">
-        <div class="seccion__intro">
-          <h1>Tu dieta</h1>
-          <p>Anota lo que comes y mira cuánto te falta para tus objetivos del día.</p>
-        </div>
+        <h1>Tu dieta</h1>
         <div class="seccion__acciones" id="dieta-acciones">
-          <button type="button" class="boton boton--icono" id="editar-dieta">Editar dieta</button>
+          <button type="button" class="boton boton--icono" id="editar-dieta">Editar plan</button>
         </div>
       </div>
       <div id="diario"></div>

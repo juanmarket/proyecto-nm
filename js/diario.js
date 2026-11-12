@@ -135,20 +135,50 @@
   }
 
   // ---------- Pintado ----------
+  // Calorías y proteína como anillos (fuera y dentro); carbohidratos y grasas como barras.
   function htmlBarras(total, obj) {
-    return MACROS.map(([k, nombre, u]) => {
+    const frac = (k) => (obj[k] ? Math.min(1, total[k] / obj[k]) : 0);
+    const pasada = Boolean(obj.kcal) && total.kcal > obj.kcal * 1.05;
+    const cumplida = Boolean(obj.proteina) && total.proteina >= obj.proteina;
+    const anillo = (k, r, extra) => {
+      const c = 2 * Math.PI * r;
+      return `<circle class="anillo__pista" cx="60" cy="60" r="${r}" stroke-width="11"/>` + (frac(k) > 0
+        ? `<circle class="anillo anillo--${k} ${extra}" cx="60" cy="60" r="${r}" stroke-width="11"
+            stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c * (1 - frac(k))).toFixed(1)}"/>`
+        : "");
+    };
+    const dato = (k, nombre, u, clase, estado) => `
+      <p class="dato dato--${k} ${clase}">
+        <span class="dato__nombre">${nombre}</span>
+        <span class="dato__valor">${fmt(total[k])}<small>${obj[k] ? `de ${fmt(obj[k])} ${u}` : u}</small></span>
+        ${estado ? `<span class="dato__estado">${estado}</span>` : ""}
+      </p>`;
+    const estadoKcal = !obj.kcal ? "" : total.kcal > obj.kcal ? `Te pasaste ${fmt(total.kcal - obj.kcal)} kcal` : `Te quedan ${fmt(obj.kcal - total.kcal)} kcal`;
+    const estadoProteina = !obj.proteina ? "" : cumplida ? "Cumplida" : `Te faltan ${fmt(obj.proteina - total.proteina)} g`;
+    const barras = MACROS.slice(2).map(([k, nombre, u]) => {
       const meta = obj[k];
       const pct = meta ? Math.min(100, (total[k] / meta) * 100) : 0;
-      // La proteína es una meta a alcanzar; calorías, un tope.
-      const estado = !meta ? "" : k === "proteina" ? (total[k] >= meta ? "cumplida" : "") : k === "kcal" && total[k] > meta * 1.05 ? "pasada" : "";
       return `
-        <div class="barra barra--${k} ${estado}">
+        <div class="barra barra--${k}">
           <p class="barra__texto"><span>${nombre}</span><span><strong>${fmt(total[k])}</strong>${meta ? ` / ${fmt(meta)}` : ""} ${u}</span></p>
           <div class="barra__pista" role="progressbar" aria-label="${nombre}" aria-valuemin="0" aria-valuemax="${meta ? Math.round(meta) : 0}" aria-valuenow="${Math.round(total[k])}">
             <div class="barra__relleno" style="width:${pct.toFixed(1)}%"></div>
           </div>
         </div>`;
     }).join("");
+    return `
+      <div class="anillos">
+        <svg class="anillos__svg" viewBox="0 0 120 120" role="img"
+          aria-label="Calorías: ${fmt(total.kcal)}${obj.kcal ? ` de ${fmt(obj.kcal)}` : ""}. Proteína: ${fmt(total.proteina)}${obj.proteina ? ` de ${fmt(obj.proteina)}` : ""} gramos.">
+          ${anillo("kcal", 53, pasada ? "pasada" : "")}
+          ${anillo("proteina", 38, "")}
+        </svg>
+        <div class="anillos__datos">
+          ${dato("kcal", "Calorías", "kcal", pasada ? "pasada" : "", estadoKcal)}
+          ${dato("proteina", "Proteína", "g", cumplida ? "cumplida" : "", estadoProteina)}
+        </div>
+      </div>
+      <div class="diario__barras">${barras}</div>`;
   }
 
   function textoResumen(total, obj, hay) {
@@ -306,7 +336,7 @@
     const rec = recientes();
     raiz.innerHTML = `
       <div class="diario__cuerpo">
-        <div class="panel">
+        <div class="panel diario__hoy">
           <div class="grafica__cabecera">
             <h2>${fecha === hoy ? "Hoy" : esc(fechaCorta(fecha))}</h2>
             <div class="diario__fecha">
@@ -315,19 +345,10 @@
               <button type="button" class="icono-btn" data-dia="1" aria-label="Día siguiente" ${fecha >= hoy ? "disabled" : ""}>›</button>
             </div>
           </div>
-          <div class="diario__barras">${htmlBarras(total, obj)}</div>
-          <p class="diario__resumen">${esc(textoResumen(total, obj, lista.length > 0))}</p>
-          ${lista.length ? `
-            <ul class="diario__lista">
-              ${lista.map((e) => `
-                <li>
-                  <span class="alimento__nombre">${esc(e.nombre)}${e.cantidad ? ` <em>${esc(e.cantidad)}</em>` : ""}</span>
-                  <span class="alimento__macros">${fmt(e.kcal)} kcal · ${fmt(e.proteina)} g P</span>
-                  <button type="button" class="icono-btn icono-btn--peligro" data-quitar="${esc(e.id)}" aria-label="Quitar ${esc(e.nombre)}">${ICONOS.borrar}</button>
-                </li>`).join("")}
-            </ul>` : ""}
+          ${htmlBarras(total, obj)}
+          ${!lista.length || !(obj.kcal || obj.proteina) ? `<p class="diario__resumen">${esc(textoResumen(total, obj, lista.length > 0))}</p>` : ""}
         </div>
-        <div class="panel">
+        <div class="panel diario__anadir">
           <div class="grafica__cabecera">
             <h2>Añadir</h2>
             <div class="pestanas" role="group" aria-label="Forma de añadir">
@@ -344,6 +365,21 @@
               </div>
             </div>` : ""}
         </div>
+        ${lista.length ? `
+        <div class="panel diario__registro">
+          <div class="grafica__cabecera">
+            <h2>${fecha === hoy ? "Anotado hoy" : "Anotado ese día"}</h2>
+            <span class="bloque__meta">${lista.length} ${lista.length === 1 ? "entrada" : "entradas"}</span>
+          </div>
+            <ul class="diario__lista">
+              ${lista.map((e) => `
+                <li>
+                  <span class="alimento__nombre">${esc(e.nombre)}${e.cantidad ? ` <em>${esc(e.cantidad)}</em>` : ""}</span>
+                  <span class="alimento__macros">${fmt(e.kcal)} kcal · ${fmt(e.proteina)} g P</span>
+                  <button type="button" class="icono-btn icono-btn--peligro" data-quitar="${esc(e.id)}" aria-label="Quitar ${esc(e.nombre)}">${ICONOS.borrar}</button>
+                </li>`).join("")}
+            </ul>
+        </div>` : ""}
       </div>
       <details class="panel consejos" id="diario-semana" ${abiertos.semana ? "open" : ""}>
         <summary><h2>Últimos 7 días</h2></summary>

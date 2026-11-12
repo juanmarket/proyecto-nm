@@ -10,6 +10,8 @@ App personal para seguir mi transformación: rutina, dieta, fotos de progreso, p
 
 Para publicar cambios: `git push` a la rama `main`; GitHub Pages se actualiza solo en uno o dos minutos.
 
+En un dispositivo nuevo, la app carga sola la rutina y la dieta vigentes (las que indica `planes/actual.json`). Se puede añadir a la pantalla de inicio como una app.
+
 Todo se guarda solo en el navegador donde la uses. Cada dispositivo tiene sus propios datos. Usa **Progreso → Descargar copia** de vez en cuando.
 
 ## Secciones
@@ -52,7 +54,9 @@ El plan se arma en el chat con Claude y se entrega como un archivo `.json` que s
 | `scripts/construir_fotos.py` | Regenera `data/fotos.js` y descarga las fotos de la rutina |
 | `scripts/fotos_manual.json` | Emparejamiento a mano de ejercicios con fotos (editable) |
 | `img/ejercicios/` | Fotos de ejemplo de los ejercicios de la rutina |
-| `planes/` | Archivos de rutina y dieta para importar (pueden traer solo una de las dos partes) |
+| `planes/` | Archivos de rutina y dieta. `actual.json` dice cuáles son los vigentes |
+| `PRODUCT.md`, `DESIGN.md` | Para quién es la app y su sistema visual (colores, vidrio, componentes) |
+| `manifest.webmanifest`, `img/iconos/` | Datos e iconos para instalarla en el celular |
 | `fuentes/` | Dataset original y su licencia |
 
 Para regenerar los datos tras corregir una traducción:

@@ -1,0 +1,5 @@
+{
+  "_nota": "Plan vigente. La app lo carga sola en un dispositivo que todavía no tiene rutina o dieta. Al publicar un plan nuevo, cambia aquí el nombre del archivo.",
+  "rutina": "rutina-v2-2026-11-11.json",
+  "dieta": "dieta-2026-11-11.json"
+}

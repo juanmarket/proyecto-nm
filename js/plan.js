@@ -150,10 +150,30 @@
       (s && s.series.length ? `<p class="bloque__objetivo">${etiquetaObjetivo(s)} Hoy: ${esc(formatoSeries(s.series))}</p>` : "");
   }
 
+  // Sesión que toca: la que quedó a medias, o la siguiente a la última
+  // registrada en el orden del plan.
+  function sesionSiguiente() {
+    const dias = plan.rutina.dias;
+    const borrador = almacen.leer("nm.borrador", null);
+    if (borrador && borrador.planActualizado === plan.actualizado && dias[borrador.dia]) {
+      return { dia: borrador.dia, etiqueta: "Sesión a medias", boton: "Continuar sesión" };
+    }
+    const ultima = S.todas()[0];
+    const i = ultima ? dias.findIndex((d) => d.titulo === ultima.dia) : -1;
+    for (let k = 1; k <= dias.length; k++) {
+      const j = (i + k) % dias.length;
+      if (!dias[j].ejercicios.length) continue;
+      const hoyHecho = ultima && ultima.fecha === hoyISO();
+      return { dia: j, etiqueta: hoyHecho ? "Hoy ya entrenaste. Después sigue" : ultima ? "Te toca" : "Empieza por", boton: "Registrar sesión" };
+    }
+    return null;
+  }
+
   function pintarRutina() {
     const cont = $("#rutina-vista");
     if (!cont) return;
     $("#rutina-acciones").hidden = editandoRutina;
+    $("#rutina-opciones").hidden = editandoRutina;
     $("#progresion").hidden = editandoRutina;
     if (editandoRutina) return;
     const dias = plan ? plan.rutina.dias : [];
@@ -165,20 +185,34 @@
         </div>`;
       return;
     }
+    const sig = sesionSiguiente();
     cont.innerHTML = `
-      ${plan.rutina.notas ? `<div class="panel notas-plan">${esc(plan.rutina.notas)}</div>` : ""}
+      ${sig ? `
+        <section class="panel siguiente" aria-label="Sesión que toca">
+          <div class="siguiente__texto">
+            <p class="siguiente__etiqueta">${esc(sig.etiqueta)}</p>
+            <h2>${esc(dias[sig.dia].titulo)}</h2>
+            <p class="bloque__meta">${dias[sig.dia].ejercicios.length} ejercicios${dias[sig.dia].notas ? ` · ${esc(dias[sig.dia].notas)}` : ""}</p>
+          </div>
+          <button type="button" class="boton boton--primario" data-registrar="${sig.dia}">${sig.boton}</button>
+        </section>` : ""}
+      ${plan.rutina.notas ? `
+        <details class="panel consejos notas-rutina">
+          <summary><h2>Notas de la rutina</h2></summary>
+          <p class="notas-plan">${esc(plan.rutina.notas)}</p>
+        </details>` : ""}
       <div class="dias">
         ${dias.map((dia, d) => {
           const ultimaSesion = S.todas().find((s) => s.dia === dia.titulo);
           return `
-          <article class="panel dia">
+          <article class="panel dia${sig && sig.dia === d ? " dia--siguiente" : ""}">
             <header class="dia__cabecera">
               <div>
                 <p class="dia__num">Día ${d + 1}</p>
                 <h3>${esc(dia.titulo)}</h3>
                 <p class="bloque__meta">${dia.ejercicios.length} ejercicios${ultimaSesion ? ` · último registro ${esc(fechaCorta(ultimaSesion.fecha))}` : ""}</p>
               </div>
-              ${dia.ejercicios.length ? `<button type="button" class="boton boton--icono boton--registrar" data-registrar="${d}">Registrar sesión</button>` : ""}
+              ${dia.ejercicios.length ? `<button type="button" class="boton boton--icono boton--registrar" data-registrar="${d}" aria-label="Registrar sesión de ${esc(dia.titulo)}">Registrar</button>` : ""}
             </header>
             ${dia.notas ? `<p class="dia__notas">${esc(dia.notas)}</p>` : ""}
             <ol>
@@ -523,6 +557,7 @@
     dialogoSesion.addEventListener("submit", (ev) => { ev.preventDefault(); guardarSesion(); });
     dialogoSesion.addEventListener("close", () => {
       if (sesion && localStorage.getItem("nm.borrador")) aviso("Guardado como borrador");
+      pintarRutina(); // actualiza la sesión que toca (a medias o siguiente)
     });
   }
 
@@ -755,6 +790,36 @@
     }
   }
 
+  // Carga automática: si este dispositivo aún no tiene rutina o dieta, trae la
+  // publicada en planes/actual.json. Se hace una sola vez por parte, para no
+  // reponer algo que la persona borró a propósito.
+  async function cargarPlanPublicado() {
+    if (!/^https?:$/.test(location.protocol)) return;
+    const hecho = almacen.leer("nm.plan.auto", {});
+    const hayDieta = plan && (plan.dieta.comidas.length || plan.dieta.notas || MACROS.some(([k]) => plan.dieta.objetivos[k] != null));
+    const falta = {
+      rutina: !hecho.rutina && !(plan && plan.rutina.dias.length),
+      dieta: !hecho.dieta && !hayDieta,
+    };
+    if (!falta.rutina && !falta.dieta) return;
+    try {
+      const actual = await (await fetch("planes/actual.json", { cache: "no-store" })).json();
+      const partes = {};
+      for (const parte of ["rutina", "dieta"]) {
+        const archivo = actual[parte];
+        if (!falta[parte] || !/^[\w.-]+\.json$/.test(archivo || "")) continue;
+        const datos = await (await fetch(`planes/${archivo}`, { cache: "no-store" })).json();
+        if (datos && datos.tipo === "nm-plan" && datos[parte]) partes[parte] = datos[parte];
+      }
+      if (!Object.keys(partes).length) return;
+      guardarPlan({ rutina: partes.rutina || (plan && plan.rutina), dieta: partes.dieta || (plan && plan.dieta) });
+      almacen.guardar("nm.plan.auto", { ...hecho, ...Object.fromEntries(Object.keys(partes).map((k) => [k, true])) });
+      aviso("Cargamos tu plan");
+    } catch {
+      // Sin conexión o sin plan publicado: la app sigue como estaba.
+    }
+  }
+
   function iniciarImportacion() {
     $("#exportar-plan").addEventListener("click", () => {
       if (!plan) { aviso("Aún no hay plan para exportar"); return; }
@@ -800,7 +865,7 @@
   iniciarImportacion();
   pintarRutina();
   pintarDieta();
-  importarDesdeEnlace();
+  importarDesdeEnlace().then(cargarPlanPublicado);
 
   window.NM.plan = {
     obtener: () => plan,
